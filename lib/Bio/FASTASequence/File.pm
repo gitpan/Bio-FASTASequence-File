@@ -11,7 +11,7 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = ();
 our @EXPORT_OK = ();
 our @EXPORT = qw();
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 # Preloaded methods go here.
@@ -29,7 +29,13 @@ sub file{
   my ($self,$file) = @_;
   $self->{file} = $file || '';
   _parse_file($self) if($self->{file});
+  return $self->{result};
 }# end file
+
+sub get_result{
+  my ($self) = @_;
+  return $self->{result};
+}# end get_parsed
 
 sub _parse_file{
   my ($self) = @_;
@@ -39,13 +45,14 @@ sub _parse_file{
     $entry = '>'.$entry unless($entry =~ /^>/);
     $entry =~ s/>$//;
     my $seq = Bio::FASTASequence->new($entry);
-    $self->{$seq->getAccessionNr()} = $seq;
+    $self->{result}->{$seq->getAccessionNr()} = $seq;
   }
   close FH;
 }
 
 1;
 __END__
+
 
 =head1 NAME
 
@@ -56,15 +63,16 @@ Bio::FASTASequence::File - Perl extension for Bio::FASTASequence
   use Bio::FASTASequence::File;
   my $filename = '/path/to/file.fasta';
   my $parsed_fasta = Bio::FASTASequence::File->new($filename);
+  my $hashref = $parsed_fasta->get_result();
 
   # or
   my $parsed = Bio::FASTASequence::File->new();
-  $parsed->file($filename);
+  my $hashref = $parsed->file($filename);
 
   # if a sequence with accession_nr H23OP3 is in the file (as an example)
   # these methods are the methods from Bio::FASTASequence
-  my $crc64 = $parsed_fasta->{H23OP3}->getCRC64();
-  my $sequence = $parsed_fasta->{H23OP3}->getSequence();
+  my $crc64 = $hashref->{H23OP3}->getCRC64();
+  my $sequence = $hashref->{H23OP3}->getSequence();
 
 =head1 DESCRIPTION
 
@@ -85,6 +93,12 @@ creates a new instance of Bio::FASTASequence::File
   $parsed->file($filename);
 
 set the file for the object and parses the given file.
+
+=head2 get_result
+
+  my $hashref = $obj->get_result();
+
+returns a hashref that contains a hash with all Bio::FASTASequence-objects.
 
 =head1 SEE ALSO
 
