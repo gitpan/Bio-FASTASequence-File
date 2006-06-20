@@ -5,13 +5,7 @@ use strict;
 use warnings;
 use Bio::FASTASequence;
 
-require Exporter;
-
-our @ISA = qw(Exporter);
-our %EXPORT_TAGS = ();
-our @EXPORT_OK = ();
-our @EXPORT = qw();
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 # Preloaded methods go here.
@@ -53,7 +47,6 @@ sub _parse_file{
 1;
 __END__
 
-
 =head1 NAME
 
 Bio::FASTASequence::File - Perl extension for Bio::FASTASequence
@@ -93,12 +86,6 @@ creates a new instance of Bio::FASTASequence::File
   $parsed->file($filename);
 
 set the file for the object and parses the given file.
-
-=head2 get_result
-
-  my $hashref = $obj->get_result();
-
-returns a hashref that contains a hash with all Bio::FASTASequence-objects.
 
 =head1 SEE ALSO
 

@@ -1,6 +1,6 @@
 Revision history for Perl extension Bio::FASTASequence::File.
 
-0.01  Fri Oct 15 11:16:28 2004
+0.01  Tue Jun 20 12:57:33 2006
 	- original version; created by h2xs 1.23 with options
-		-XA -n Bio::FASTASequence::File -b 5.6.1
+		-b 5.6.1 -XA -n Bio::FASTASequence::File
 
